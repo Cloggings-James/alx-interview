@@ -1,16 +1,28 @@
 #!/usr/bin/python3
+''' lockbox module '''
+
 
 def canUnlockAll(boxes):
-    total_boxes = len(boxes)
-    unlocked_boxes = [False] * total_boxes
-    unlocked_boxes[0] = True
-    stack = [0]
+    ''' 
+        CanUnockAll
+        ([boxes]): a list of list
+    '''
 
-    while stack:
-        box = stack.pop()
-        for key in boxes[box]:
-            if key < total_boxes and not unlocked_boxes[key]:
-                unlocked_boxes[key] = True
-                stack.append(key)
-
-    return all(unlocked_boxes)
+    # initialize a list of unlocked boxes
+    unlocked = [False] * len(boxes)
+    # set the first box oprn
+    unlocked[0] = True
+    # iterate over the boxes
+    for index, box in enumerate(boxes):
+        # check if the box is unlocked
+        if unlocked[index]:
+            # get the keys in the box
+            for index, key in enumerate(box):
+                # set the box with a found key to open
+                if key < len(unlocked):
+                    unlocked[key] = True
+                    # get the keys at the box that has been opened
+                    # set the boxes with the keys to be open
+                    for i in boxes[key]:
+                        unlocked[i] = True
+    return all(unlocked)
