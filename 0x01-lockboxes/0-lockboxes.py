@@ -1,28 +1,32 @@
 #!/usr/bin/python3
-''' lockbox module '''
+'''LockBoxes Challenge'''
 
 
 def canUnlockAll(boxes):
-    ''' 
-        CanUnockAll
-        ([boxes]): a list of list
+    '''determines if all the boxes can be opened or not
+    Returns:
+        True: all boxes can be opened
+        False: not all boxes can be opened
     '''
+    length = len(boxes)
+    keys = set()
+    opened_boxes = []
+    i = 0
 
-    # initialize a list of unlocked boxes
-    unlocked = [False] * len(boxes)
-    # set the first box oprn
-    unlocked[0] = True
-    # iterate over the boxes
-    for index, box in enumerate(boxes):
-        # check if the box is unlocked
-        if unlocked[index]:
-            # get the keys in the box
-            for index, key in enumerate(box):
-                # set the box with a found key to open
-                if key < len(unlocked):
-                    unlocked[key] = True
-                    # get the keys at the box that has been opened
-                    # set the boxes with the keys to be open
-                    for i in boxes[key]:
-                        unlocked[i] = True
-    return all(unlocked)
+    while i < length:
+        oldi = i
+        opened_boxes.append(i)
+        keys.update(boxes[i])
+        for key in keys:
+            if key != 0 and key < length and key not in opened_boxes:
+                i = key
+                break
+        if oldi != i:
+            continue
+        else:
+            break
+
+    for i in range(length):
+        if i not in opened_boxes and i != 0:
+            return False
+    return True
